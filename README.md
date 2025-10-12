@@ -1,5 +1,7 @@
 [![Liberapay donations](https://img.shields.io/liberapay/receives/FreshRSS.svg?logo=liberapay)](https://liberapay.com/FreshRSS/donate)
 
+try to write to this PR
+
 * Read this document on [github.com/FreshRSS/FreshRSS/](https://github.com/FreshRSS/FreshRSS/blob/edge/README.md) to get the correct links and pictures.
 * [Version française](README.fr.md)
 
