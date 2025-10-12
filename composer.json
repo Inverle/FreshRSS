@@ -80,8 +80,7 @@
             "@phpstan"
         ],
         "fix": [
-            "@translations",
-            "@phpcbf"
+            "@translations"
         ]
     }
 }
