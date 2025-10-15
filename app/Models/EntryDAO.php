@@ -42,6 +42,10 @@ class FreshRSS_EntryDAO extends Minz_ModelPdo {
 		return "LIMIT {$limit} OFFSET {$offset}";
 	}
 
+	public static function sqlGreatest(string $a, string $b): string {
+		return 'GREATEST(' . $a . ', ' . $b . ')';
+	}
+
 	public static function sqlRandom(): string {
 		return 'RAND()';
 	}
@@ -290,7 +294,7 @@ SQL;
 				. 'SET title=:title, author=:author, '
 				. (static::isCompressed() ? 'content_bin=COMPRESS(:content)' : 'content=:content')
 				. ', link=:link, date=:date, `lastSeen`=:last_seen'
-				. ', `lastUserModified`=MAX(:last_user_modified, `lastUserModified`)'
+				. ', `lastUserModified`=' . static::sqlGreatest(':last_user_modified', '`lastUserModified`')
 				. ', hash=' . static::sqlHexDecode(':hash')
 				. ', is_read=COALESCE(:is_read, is_read)'
 				. ', is_favorite=COALESCE(:is_favorite, is_favorite)'
@@ -902,6 +906,14 @@ SQL;
 				$sub_search .= 'AND ' . $alias . 'date <= ? ';
 				$values[] = $filter->getMaxPubdate();
 			}
+			if ($filter->getMinUserdate() !== null) {
+				$sub_search .= 'AND ' . $alias . '`lastUserModified` >= ? ';
+				$values[] = $filter->getMinUserdate();
+			}
+			if ($filter->getMaxUserdate() !== null) {
+				$sub_search .= 'AND ' . $alias . '`lastUserModified` <= ? ';
+				$values[] = $filter->getMaxUserdate();
+			}
 
 			//Negation of date intervals must be combined by OR
 			if ($filter->getNotMinDate() !== null || $filter->getNotMaxDate() !== null) {
@@ -931,6 +943,21 @@ SQL;
 				if ($filter->getNotMaxPubdate() !== null) {
 					$sub_search .= $alias . 'date > ?';
 					$values[] = $filter->getNotMaxPubdate();
+				}
+				$sub_search .= ') ';
+			}
+			if ($filter->getNotMinUserdate() !== null || $filter->getNotMaxUserdate() !== null) {
+				$sub_search .= 'AND (';
+				if ($filter->getNotMinUserdate() !== null) {
+					$sub_search .= $alias . '`lastUserModified` < ?';
+					$values[] = $filter->getNotMinUserdate();
+					if ($filter->getNotMaxUserdate()) {
+						$sub_search .= ' OR ';
+					}
+				}
+				if ($filter->getNotMaxUserdate() !== null) {
+					$sub_search .= $alias . '`lastUserModified` > ?';
+					$values[] = $filter->getNotMaxUserdate();
 				}
 				$sub_search .= ') ';
 			}
