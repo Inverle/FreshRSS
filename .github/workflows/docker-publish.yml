@@ -88,6 +88,6 @@ jobs:
         build-args: |
           FRESHRSS_VERSION=${{ env.FRESHRSS_VERSION }}
           SOURCE_COMMIT=${{ github.sha }}
-        tags: ghcr.io/${{ github.repository }}:docker-testing
+        tags: ghcr.io/inverle/freshrss:docker-testing
         labels: ${{ steps.meta.outputs.labels }}
         push: true
