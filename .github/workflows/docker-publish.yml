@@ -60,7 +60,6 @@ jobs:
       with:
         flavor: ${{ matrix.flavor }}
         images: |
-          docker.io/freshrss/freshrss
           ghcr.io/${{ github.repository }}
         tags: ${{ matrix.tags }}
         labels: |
@@ -89,6 +88,6 @@ jobs:
         build-args: |
           FRESHRSS_VERSION=${{ env.FRESHRSS_VERSION }}
           SOURCE_COMMIT=${{ github.sha }}
-        tags: ${{ steps.meta.outputs.tags }}
+        tags: ghcr.io/${{ github.repository }}:docker-testing
         labels: ${{ steps.meta.outputs.labels }}
         push: true
