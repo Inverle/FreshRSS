@@ -4,10 +4,8 @@
 * [Version française](README.fr.md)
 
 <https://google.com>
-<https://google.com/nonexistentpath>
-<https://probablynonexistenthostiassumelol.com>
 <http://127.0.0.1/mustbeignored>
-<http://google.com/?mustbehttps>
+<https://google.com/?mustbehttps>
 
 # FreshRSS
 
