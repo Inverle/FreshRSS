@@ -3,6 +3,12 @@
 * Read this document on [github.com/FreshRSS/FreshRSS/](https://github.com/FreshRSS/FreshRSS/blob/edge/README.md) to get the correct links and pictures.
 * [Version française](README.fr.md)
 
+<https://google.com>
+<https://google.com/nonexistentpath>
+<https://probablynonexistenthostiassumelol.com>
+<http://127.0.0.1/mustbeignored>
+<http://google.com/?mustbehttps>
+
 # FreshRSS
 
 FreshRSS is a self-hosted RSS feed aggregator.
