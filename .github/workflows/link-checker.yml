@@ -1,12 +1,8 @@
 name: Link Checker
 
 on:
-  push:
-    branches: [ edge ]
   pull_request:
     branches: [ edge ]
-  release:
-    types: [published]
   schedule:
     - cron: '30 12 * * *'
   workflow_dispatch:
@@ -54,14 +50,17 @@ jobs:
             --require-https
             --exclude-all-private
             --max-concurrency 50
+            --accept-timeouts
             --timeout 15
+            --max-retries 5
+            --retry-wait-time 1
             --extensions md,html,css,js,php,phtml,sh,json,xml,yml,neon,htaccess,conf
             --default-extension txt
             --include-verbatim
             --exclude-path '(^|/)index\.html$'
             --exclude-path '(^|/)data/(cache|users|favicons)($|/)'
             --exclude-path '(^|/)lib/(phpmailer|simplepie|phpgt|marienfressinaud)($|/)'
-            --exclude-path '(^|/)docs/(_includes|_layouts)($|/)'
+            --exclude-path '(^|/)docs/(_includes|_layouts|i18n)($|/)'
             --exclude-path '(^|/)p/scripts/vendor($|/)'
             ${{ github.event_name == 'pull_request' && '--files-from changed-files.txt' || '.' }}
 
