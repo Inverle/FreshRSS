@@ -465,6 +465,11 @@ function loadLazyImages(rootElement) {
 	});
 }
 
+function focusArticleContent(new_active) {
+	// To ease navigation within article contents using the keyboard
+	new_active.querySelector('a.go_website')?.focus({ focusVisible: false, preventScroll: true });
+}
+
 function toggleContent(new_active, old_active, skipping) {
 	// If skipping, move current without activating or marking as read
 	if (!new_active) {
@@ -493,6 +498,7 @@ function toggleContent(new_active, old_active, skipping) {
 		if (!skipping) {
 			new_active.classList.add('active');
 			if (location.hash != '') location.hash = '';
+			focusArticleContent(new_active);
 		}
 		new_active.classList.add('current');
 		if (old_active) {
@@ -505,6 +511,9 @@ function toggleContent(new_active, old_active, skipping) {
 	} else {
 		new_active.classList.toggle('active');
 		if (location.hash != '') location.hash = '';
+		if (!skipping && new_active.classList.contains('active')) {
+			focusArticleContent(new_active);	// Restore focus lost when the article was collapsed
+		}
 	}
 
 	const new_offsetTop = new_active.offsetTop;
